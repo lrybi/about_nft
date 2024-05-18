@@ -1,9 +1,3 @@
-
-    // (copy và chỉnh sửa từ: https://github.com/PatrickAlphaC/hardhat-nft-fcc/blob/main/test/unit/randomIpfs.test.js)
-
-
-// We are going to skip a bit on these tests...
-
 const { assert, expect } = require("chai")
 const { network, deployments, ethers, getNamedAccounts } = require("hardhat")
 const { developmentChains } = require("../../helper-hardhat-config")
@@ -55,14 +49,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
         })
         describe("fulfillRandomWords", () => {
             it("mints NFT after random number is returned", async function () {
-                await new Promise(async (resolve, reject) => {
-
-                    // (ở đây ta tạo "event listener for event NftMinted" trước ngay từ đầu rồi mới kick off the event sau)
-                    randomIpfsNft.once("NftMinted", async (tokenId, breed, minter) => {
-                            // event NftMinted: "event NftMinted(uint256 indexed tokenId, Breed indexed breed, address indexed minter);"
+                await new Promise(async (resolve, reject) => {                    randomIpfsNft.once("NftMinted", async (tokenId, breed, minter) => {
+                            
                         try {
                             const tokenUri = await randomIpfsNft.tokenURI(tokenId.toString())
-                                // ("TokenURI(uint256 tokenId)" là một function của contract cha ERC721URIStorage (hay của contract cha ERC721))
+                                
                             const tokenCounter = await randomIpfsNft.getTokenCounter()
                             const dogUri = await randomIpfsNft.getDogTokenUris(breed.toString());
                             assert.equal(tokenUri.toString().includes("ipfs://"), true)
@@ -74,9 +65,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                             console.log(e)
                             reject(e)
                         }
-                    })
-
-                    // (kicking off the event)
+                })
                     try {
                         const fee = await randomIpfsNft.getMintFee()
                         const requestNftResponse = await randomIpfsNft.requestNft({
@@ -114,8 +103,4 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 )
             })
         })
-    })
-
-
-// để chạy test: "yarn hh test test\unit\randomIpfs.test.js"
-    // (If you have multiple files you can do "yarn hardhat test <test\testfile.js>")
+    })    

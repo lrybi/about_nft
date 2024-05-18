@@ -44,7 +44,8 @@ const { developmentChains } = require("../../helper-hardhat-config");
                 
             const owner = await basicNft.ownerOf("0");
                 
-            assert.equal(deployerBalance.toString(), "1");            assert.equal(owner, deployerAddress);
+            assert.equal(deployerBalance.toString(), "1");            
+            assert.equal(owner, deployerAddress);
         })
     })
 })    
